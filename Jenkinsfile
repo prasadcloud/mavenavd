@@ -1,57 +1,39 @@
-pipeline
+@Library('mylibrary')_
+node('built-in')
 {
-    agent any
-    stages
-    {
-        stage('ContinuousDownload')
+    
+        stage('Continous Download')
         {
-            steps
-            {
-                git 'https://github.com/intelliqittrainings/maven.git'
-            }
+            
+                
+                    cicdavd.contDownload("maven2.git")
+                
+            
         }
-        stage('ContinuousBuild')
+         stage('Continous Build')
         {
-            steps
-            {
-                sh 'mvn package'
-            }
+            
+                
+                    cicdavd.contBuild()
+              
         }
-        stage('ContinuousDeployment')
+         stage('Continous Deploy')
         {
-            steps
-            {
-               deploy adapters: [tomcat9(credentialsId: 'bfb67f1d-2f4e-430c-bb8d-30584116bd00', path: '', url: 'http://172.31.51.212:9090')], contextPath: 'test1', war: '**/*.war'
-            }
+            
+                    cicdavd.contDep("SharedPipelineLibrary1", "172.31.26.206", "testavd2")
         }
-        stage('ContinuousTesting')
+         stage('Continous Testing')
         {
-            steps
-            {
-               git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
-               sh 'java -jar /home/ubuntu/.jenkins/workspace/DeclarativePipeline1/testing.jar'
-            }
+            
+                    cicdavd.contDownload("FunctionalTesting.git")
+                    cicdavd.contTest("SharedPipelineLibrary1")
+              
         }
-       
-    }
-    
-    post
-    {
-        success
+         stage('Continous Delivery')
         {
-            input message: 'Need approval from the DM!', submitter: 'srinivas'
-               deploy adapters: [tomcat9(credentialsId: 'bfb67f1d-2f4e-430c-bb8d-30584116bd00', path: '', url: 'http://172.31.50.204:9090')], contextPath: 'prod1', war: '**/*.war'
+            
+                    cicdavd.contDep("SharedPipelineLibrary1", "172.31.21.142", "prodavd2")
+              
         }
-        failure
-        {
-            mail bcc: '', body: 'Continuous Integration has failed', cc: '', from: '', replyTo: '', subject: 'CI Failed', to: 'selenium.saikrishna@gmail.com'
-        }
-       
-    }
-    
-    
-    
-    
-    
-    
+
 }
