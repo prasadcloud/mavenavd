@@ -6,7 +6,7 @@ node('built-in')
         {
             
                 
-                    cicdavd.contDownload("maven2.git")
+                    cicdavd.contDownload("mavenavd.git")
                 
             
         }
@@ -17,23 +17,4 @@ node('built-in')
                     cicdavd.contBuild()
               
         }
-         stage('Continous Deploy')
-        {
-            
-                    cicdavd.contDep("SharedPipelineLibrary1", "172.31.26.206", "testavd2")
-        }
-         stage('Continous Testing')
-        {
-            
-                    cicdavd.contDownload("FunctionalTesting.git")
-                    cicdavd.contTest("SharedPipelineLibrary1")
-              
-        }
-         stage('Continous Delivery')
-        {
-            
-                    cicdavd.contDep("SharedPipelineLibrary1", "172.31.21.142", "prodavd2")
-              
-        }
-
 }
