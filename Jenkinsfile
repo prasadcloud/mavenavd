@@ -6,7 +6,7 @@ node('built-in')
         {
             
                 
-                    cicdavd.contDownload("maven2.git")
+                    cicdavd.contDownload("mavenavd.git")
                 
             
         }
